@@ -12,7 +12,7 @@ const arr = [
 /**
  * 计算最小的y所对应的行列值
  */
-function minytotile(miny: number, zoom: number): number {
+export function minytotile(miny: number, zoom: number): number {
   const n = Math.pow(2, zoom);
   const tileY =
     ((1 -
@@ -29,7 +29,7 @@ function minytotile(miny: number, zoom: number): number {
 /**
  * 计算最大的y所对应的行列值
  */
-function maxytotile(maxy: number, zoom: number): number {
+export function maxytotile(maxy: number, zoom: number): number {
   const n = Math.pow(2, zoom);
   const tileY =
     ((1 -
@@ -47,7 +47,7 @@ function maxytotile(maxy: number, zoom: number): number {
  * 计算最小的x所对应的行列值
  * @return
  */
-function minxtotile(minx: number, zoom: number): number {
+export function minxtotile(minx: number, zoom: number): number {
   const n = Math.pow(2, zoom);
   const tileX = ((minx + 180) / 360) * n;
   const x = Math.floor(tileX);
@@ -57,7 +57,7 @@ function minxtotile(minx: number, zoom: number): number {
 /**
  * 计算最大的x所对应的行列值
  */
-function maxxtotile(maxx: number, zoom: number): number {
+export function maxxtotile(maxx: number, zoom: number): number {
   const n = Math.pow(2, zoom);
   const tileX = ((maxx + 180) / 360) * n;
   const x = Math.ceil(tileX);

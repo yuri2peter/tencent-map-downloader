@@ -18,6 +18,12 @@
   },
   "homepage": "https://github.com/yuri2peter/tencent-map-downloader#readme",
   "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/request": "^2.48.8",
     "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "fs-extra": "^10.1.0",
+    "request": "^2.88.2"
   }
 }
