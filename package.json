@@ -1,0 +1,23 @@
+{
+  "name": "tencent-map-downloader",
+  "version": "1.0.0",
+  "description": "疼训瓦片地图下载器",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuri2peter/tencent-map-downloader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuri2peter/tencent-map-downloader/issues"
+  },
+  "homepage": "https://github.com/yuri2peter/tencent-map-downloader#readme",
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}
