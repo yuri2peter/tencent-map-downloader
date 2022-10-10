@@ -1,21 +1,13 @@
-import { downloader } from './src/downloader';
+import { quickStart } from './src/quickStart';
+
+type Latlgt = [number, number];
 
 async function main() {
-  const params = {
-    leftTopPoint: {
-      longitude: 117.1452,
-      latitude: 31.8511,
-    },
-    rightBottomPoint: {
-      longitude: 117.1856,
-      latitude: 31.8318,
-    },
-    savePath: __dirname + '/dist',
-    minZoom: 3,
-    maxZoom: 17,
-    theme: 'light' as 'light',
-    clearDistBeforeStart: true,
-  };
-  downloader(params);
+  // 腾讯在线地图选点工具 https://lbs.qq.com/getPoint/
+  const p1: Latlgt = [32.0136, 116.918519]; // 格式[纬度, 经度]， 第一个点（左上）的经纬度
+  const p2: Latlgt = [31.694497, 117.583144]; // 格式[纬度, 经度]， 第二个点（右下）的经纬度
+  
+  await quickStart(p1, p2, __dirname);
 }
+
 main();
