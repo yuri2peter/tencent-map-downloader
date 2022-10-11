@@ -1,6 +1,8 @@
 # tencent-map-downloader
 
-疼训瓦片地图下载器
+疼逊瓦片地图下载器
+
+![img](./preview.png)
 
 ## 安装
 
