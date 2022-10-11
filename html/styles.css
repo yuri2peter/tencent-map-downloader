@@ -7,8 +7,12 @@ body {
 
 #box {
   height: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
-.mapboxgl-ctrl-bottom-right {
-  display: none;
+#left-map,
+#right-map {
+  flex-grow: 1;
+  height: 100%;
 }

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
+    "preview": "http-server --silent -o",
     "postinstall": "patch-package"
   },
   "repository": {
@@ -20,14 +21,15 @@
   "homepage": "https://github.com/yuri2peter/tencent-map-downloader#readme",
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
-    "@types/request": "^2.48.8",
-    "ts-node": "^10.9.1",
     "@types/mapbox-gl": "^2.7.5",
-    "patch-package": "^6.4.7"
+    "@types/request": "^2.48.8",
+    "http-server": "^14.1.1",
+    "patch-package": "^6.4.7",
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
     "fs-extra": "^10.1.0",
-    "request": "^2.88.2",
-    "mapbox-gl": "^2.10.0"
+    "mapbox-gl": "^2.10.0",
+    "request": "^2.88.2"
   }
 }

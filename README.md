@@ -11,25 +11,9 @@ npm ci
 ## 快速开始
 
 1. 访问 [腾讯在线地图选点工具](https://lbs.qq.com/getPoint/) 复制目标区域的左上角和右下角的经纬度。
-2. 修改`index.ts`中`p1, p2`的值。
-```ts
-// index.ts
-import { quickStart } from './src/quickStart';
-
-type Latlgt = [number, number];
-
-async function main() {
-  // 腾讯在线地图选点工具 https://lbs.qq.com/getPoint/
-  const p1: Latlgt = [32.0136, 116.918519]; // 格式[纬度, 经度]， 第一个点（左上）的经纬度
-  const p2: Latlgt = [31.694497, 117.583144]; // 格式[纬度, 经度]， 第二个点（右下）的经纬度
-  
-  await quickStart(p1, p2, __dirname);
-}
-
-main();
-
-```
-3. 运行`npm start`等待脚本自动执行即可。
+2. 修改`index.ts`中`p1, p2`的值(可以进一步自定义`quickStart`的参数)。
+3. 运行`npm start`等待地图下载。
+4. 运行`npm run preview`启动 web 服务，预览地图。
 
 ## 进阶
 
