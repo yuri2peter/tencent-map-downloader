@@ -49,7 +49,7 @@ export async function downloader(params: Params) {
       leftTopPoint: { longitude: -179, latitude: 89 },
       rightBottomPoint: { longitude: 179, latitude: -89 },
       minZoom: 3,
-      maxZoom: 3,
+      maxZoom: 6,
     });
   }
   console.log(`正在${checkMode ? '检查' : '下载'}目标区域地图...`);
@@ -62,7 +62,7 @@ async function work(params: Params) {
     leftTopPoint,
     rightBottomPoint,
     minZoom = 3, // 最小3
-    maxZoom = 17, // 最大18
+    maxZoom = 18, // 最大18
     theme = 'light',
     savePath,
     concurrency = defaultConcurrency, // 并发数太大会导致频繁下载失败
@@ -78,10 +78,10 @@ async function work(params: Params) {
   // 统计数量
   let sum = 0;
   for (let z = minZoom; z <= maxZoom; z++) {
-    const maxXTile = maxxtotile(maxLon, z);
-    const minXTile = minxtotile(minLon, z);
-    const maxYTile = maxytotile(maxLat, z);
-    const minYTile = minytotile(minLat, z);
+    const maxXTile = maxxtotile(maxLon, z) + 1;
+    const minXTile = minxtotile(minLon, z) - 1;
+    const maxYTile = maxytotile(maxLat, z) + 1;
+    const minYTile = minytotile(minLat, z) - 1;
     for (let x = minXTile; x <= maxXTile; x++) {
       for (let y = minYTile; y <= maxYTile; y++) {
         if (x < 0 || y < 0) {
@@ -98,10 +98,10 @@ async function work(params: Params) {
   let countRuning = 0;
 
   for (let z = minZoom; z <= maxZoom; z++) {
-    const maxXTile = maxxtotile(maxLon, z);
-    const minXTile = minxtotile(minLon, z);
-    const maxYTile = maxytotile(maxLat, z);
-    const minYTile = minytotile(minLat, z);
+    const maxXTile = maxxtotile(maxLon, z) + 1;
+    const minXTile = minxtotile(minLon, z) - 1;
+    const maxYTile = maxytotile(maxLat, z) + 1;
+    const minYTile = minytotile(minLat, z) - 1;
     for (let x = minXTile; x <= maxXTile; x++) {
       for (let y = minYTile; y <= maxYTile; y++) {
         if (x < 0 || y < 0) {

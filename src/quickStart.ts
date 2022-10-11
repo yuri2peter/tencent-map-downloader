@@ -1,16 +1,22 @@
 import path from 'path';
 import { downloader } from './downloader';
-import { sleep } from './utils';
 
 type Latlgt = [number, number];
 
 /**
  * 快速下载一个城市的地图。包括世界底图和亮色深色两个版本。
  * 文件保存在dist/map_tiles目录下
- * @param p1
- * @param p2
+ * @param p1 左上角点
+ * @param p2 右下角点
+ * @param dirPath 根目录
+ * @param zoomLevel 缩放等级
  */
-export async function quickStart(p1: Latlgt, p2: Latlgt, dirPath: string) {
+export async function quickStart(
+  p1: Latlgt,
+  p2: Latlgt,
+  dirPath: string,
+  zoomLevel?: number
+) {
   const commons = {
     leftTopPoint: {
       latitude: p1[0],
@@ -21,13 +27,13 @@ export async function quickStart(p1: Latlgt, p2: Latlgt, dirPath: string) {
       longitude: p2[1],
     },
     minZoom: 3,
-    maxZoom: 17,
+    maxZoom: zoomLevel,
     clearDistBeforeStart: false,
     withWorldMap: true,
   };
 
-  const pathLight = path.resolve(dirPath, 'dist/map_tiles/light');
-  const pathDark = path.resolve(dirPath, 'dist/map_tiles/dark');
+  const pathLight = path.resolve(dirPath, 'dist/map-server/tiles_light');
+  const pathDark = path.resolve(dirPath, 'dist/map-server/tiles_dark');
 
   console.log('====================================');
   console.log('下载浅色背景地图...');

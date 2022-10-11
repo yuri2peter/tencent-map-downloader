@@ -4,7 +4,8 @@
   "description": "疼训瓦片地图下载器",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "ts-node index.ts",
+    "postinstall": "patch-package"
   },
   "repository": {
     "type": "git",
@@ -20,10 +21,13 @@
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
     "@types/request": "^2.48.8",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "@types/mapbox-gl": "^2.7.5",
+    "patch-package": "^6.4.7"
   },
   "dependencies": {
     "fs-extra": "^10.1.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "mapbox-gl": "^2.10.0"
   }
 }
