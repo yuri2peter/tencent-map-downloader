@@ -1,5 +1,6 @@
 import path from 'path';
 import request from 'request';
+import logUpdate from 'log-update';
 import fs from 'fs-extra';
 import {
   maxxtotile,
@@ -123,7 +124,7 @@ async function work(params: Params) {
             countRuning--;
             countFinished++;
             if (!checkMode) {
-              console.log(
+              logUpdate(
                 [
                   // 主题
                   theme,
@@ -147,6 +148,7 @@ async function work(params: Params) {
     }
   }
   await waitUntil(() => countRuning === 0);
+  logUpdate.clear();
   console.log('下载失败次数：' + countError);
 }
 

@@ -2,7 +2,7 @@
   "name": "tencent-map-downloader",
   "version": "1.0.0",
   "description": "疼逊瓦片地图下载器",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "start": "ts-node index.ts",
     "preview": "http-server --silent -o",
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "fs-extra": "^10.1.0",
+    "log-update": "^4.0.0",
     "mapbox-gl": "^2.10.0",
     "request": "^2.88.2"
   }
