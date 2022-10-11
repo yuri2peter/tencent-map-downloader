@@ -5,7 +5,7 @@ type Latlgt = [number, number];
 
 /**
  * 快速下载一个城市的地图。包括世界底图和亮色深色两个版本。
- * 文件保存在dist/map_tiles目录下
+ * 文件保存在dist/map-server目录下
  * @param p1 左上角点
  * @param p2 右下角点
  * @param dirPath 根目录
