@@ -18,7 +18,7 @@ interface GisPoint {
   latitude: number;
 }
 
-interface Params {
+export interface DownloaderParams {
   leftTopPoint: GisPoint; // 左上角坐标
   rightBottomPoint: GisPoint; // 右下角坐标
   minZoom?: number; // 最小zoom，最小3
@@ -29,13 +29,14 @@ interface Params {
   withWorldMap?: Boolean; // 是否添加世界地图的底图
   concurrency?: number; // 下载并发数，默认defaultConcurrency。并发数太大会导致频繁下载失败
   checkMode?: Boolean; // 是否在检查模式。该模式下，将会减少打印内容，用于检查地图是否有缺漏
+  useCache?: boolean; // 是否启用缓存
 }
 
 /**
  * 下载地图
  * @param params
  */
-export async function downloader(params: Params) {
+export async function downloader(params: DownloaderParams) {
   const { withWorldMap, savePath, clearDistBeforeStart, checkMode } = params;
   console.log('目标目录：' + savePath);
   // 清空目标目录
@@ -59,7 +60,7 @@ export async function downloader(params: Params) {
   console.log('任务完成.');
 }
 
-async function work(params: Params) {
+async function work(params: DownloaderParams) {
   const {
     leftTopPoint,
     rightBottomPoint,
@@ -69,6 +70,7 @@ async function work(params: Params) {
     savePath,
     concurrency = defaultConcurrency, // 并发数太大会导致频繁下载失败
     checkMode,
+    useCache = false,
   } = params;
   const styleid = theme === 'light' ? '1' : '4';
 
@@ -116,7 +118,14 @@ async function work(params: Params) {
         let success = true;
         await waitUntil(() => countRuning < concurrency);
         countRuning++;
-        tryDownloadImage(z, x, y, styleid, filePath)
+        tryDownloadImage({
+          z,
+          x,
+          y,
+          styleid,
+          filePath,
+          useCache,
+        })
           .catch((err) => {
             success = false;
             countError++;
@@ -159,13 +168,21 @@ function getFilePath(z: number, x: number, y: number, dirPath: string) {
 }
 
 // 下载图片
-function tryDownloadImage(
-  z: number,
-  x: number,
-  y: number,
-  styleid: string,
-  filePath: string
-): Promise<Boolean> {
+function tryDownloadImage({
+  z,
+  x,
+  y,
+  styleid,
+  filePath,
+  useCache,
+}: {
+  z: number;
+  x: number;
+  y: number;
+  styleid: string;
+  filePath: string;
+  useCache: boolean;
+}): Promise<Boolean> {
   const img_url = `http://rt1.map.gtimg.com/tile?z=${z}&x=${x}&y=${y}&styleid=${styleid}&version=117`;
   return new Promise((resolve, reject) => {
     // 如果文件已存在
@@ -173,21 +190,23 @@ function tryDownloadImage(
       resolve(true);
       return;
     }
-    // 获取缓存文件路径
-    const theme = styleid === '1' ? 'light' : 'dark';
-    const cacheFilePath = getFilePath(
-      z,
-      x,
-      y,
-      path.resolve(ROOT_PATH, `cache/${theme}`)
-    );
-
-    // 如果缓存已存在
-    if (fs.pathExistsSync(cacheFilePath)) {
-      fs.ensureFileSync(filePath);
-      fs.cpSync(cacheFilePath, filePath);
-      resolve(true);
-      return;
+    let cacheFilePath = '';
+    if (useCache) {
+      // 获取缓存文件路径
+      const theme = styleid === '1' ? 'light' : 'dark';
+      cacheFilePath = getFilePath(
+        z,
+        x,
+        y,
+        path.resolve(ROOT_PATH, `cache/${theme}`)
+      );
+      // 如果缓存已存在
+      if (fs.pathExistsSync(cacheFilePath)) {
+        fs.ensureFileSync(filePath);
+        fs.cpSync(cacheFilePath, filePath);
+        resolve(true);
+        return;
+      }
     }
 
     // 如果文件不存在
@@ -215,9 +234,11 @@ function tryDownloadImage(
       .on('close', function () {
         if (success) {
           resolve(true);
-          // 保存缓存
-          fs.ensureFileSync(cacheFilePath);
-          fs.cpSync(filePath, cacheFilePath);
+          if (useCache && cacheFilePath) {
+            // 保存缓存
+            fs.ensureFileSync(cacheFilePath);
+            fs.cpSync(filePath, cacheFilePath);
+          }
         } else {
           fs.removeSync(filePath);
           reject('network error');

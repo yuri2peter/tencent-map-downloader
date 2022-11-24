@@ -26,6 +26,7 @@ export async function quickStart(p1: Latlgt, p2: Latlgt, zoomLevel?: number) {
     maxZoom: zoomLevel,
     clearDistBeforeStart: false,
     withWorldMap: true,
+    useCache: true,
   };
 
   const pathLight = path.resolve(ROOT_PATH, 'dist/map-server/tiles_light');
