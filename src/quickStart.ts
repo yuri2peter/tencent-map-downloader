@@ -1,4 +1,5 @@
 import path from 'path';
+import { ROOT_PATH } from '../constant';
 import { downloader } from './downloader';
 
 type Latlgt = [number, number];
@@ -11,12 +12,7 @@ type Latlgt = [number, number];
  * @param dirPath 根目录
  * @param zoomLevel 缩放等级
  */
-export async function quickStart(
-  p1: Latlgt,
-  p2: Latlgt,
-  dirPath: string,
-  zoomLevel?: number
-) {
+export async function quickStart(p1: Latlgt, p2: Latlgt, zoomLevel?: number) {
   const commons = {
     leftTopPoint: {
       latitude: p1[0],
@@ -32,8 +28,8 @@ export async function quickStart(
     withWorldMap: true,
   };
 
-  const pathLight = path.resolve(dirPath, 'dist/map-server/tiles_light');
-  const pathDark = path.resolve(dirPath, 'dist/map-server/tiles_dark');
+  const pathLight = path.resolve(ROOT_PATH, 'dist/map-server/tiles_light');
+  const pathDark = path.resolve(ROOT_PATH, 'dist/map-server/tiles_dark');
 
   console.log('====================================');
   console.log('下载浅色背景地图...');

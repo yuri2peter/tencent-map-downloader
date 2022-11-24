@@ -9,6 +9,7 @@ import {
   minytotile,
 } from './latLngToTileUtil';
 import { getETA, waitUntil } from './utils';
+import { ROOT_PATH } from '../constant';
 
 const defaultConcurrency = 12;
 
@@ -167,10 +168,29 @@ function tryDownloadImage(
 ): Promise<Boolean> {
   const img_url = `http://rt1.map.gtimg.com/tile?z=${z}&x=${x}&y=${y}&styleid=${styleid}&version=117`;
   return new Promise((resolve, reject) => {
+    // 如果文件已存在
     if (fs.pathExistsSync(filePath)) {
       resolve(true);
       return;
     }
+    // 获取缓存文件路径
+    const theme = styleid === '1' ? 'light' : 'dark';
+    const cacheFilePath = getFilePath(
+      z,
+      x,
+      y,
+      path.resolve(ROOT_PATH, `cache/${theme}`)
+    );
+
+    // 如果缓存已存在
+    if (fs.pathExistsSync(cacheFilePath)) {
+      fs.ensureFileSync(filePath);
+      fs.cpSync(cacheFilePath, filePath);
+      resolve(true);
+      return;
+    }
+
+    // 如果文件不存在
     fs.ensureFileSync(filePath);
     const fileStream = fs.createWriteStream(filePath);
     let success = true;
@@ -190,10 +210,14 @@ function tryDownloadImage(
         }
       }
     )
+      // 保存文件
       .pipe(fileStream)
       .on('close', function () {
         if (success) {
           resolve(true);
+          // 保存缓存
+          fs.ensureFileSync(cacheFilePath);
+          fs.cpSync(filePath, cacheFilePath);
         } else {
           fs.removeSync(filePath);
           reject('network error');
