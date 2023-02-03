@@ -1,6 +1,7 @@
 import path from 'path';
 import { ROOT_PATH } from '../constant';
 import { downloader } from './downloader';
+import { transToDarkBlueTiles } from './transDarkBlueTiles';
 
 type Latlgt = [number, number];
 
@@ -31,6 +32,10 @@ export async function quickStart(p1: Latlgt, p2: Latlgt, zoomLevel?: number) {
 
   const pathLight = path.resolve(ROOT_PATH, 'dist/map-server/tiles_light');
   const pathDark = path.resolve(ROOT_PATH, 'dist/map-server/tiles_dark');
+  const pathDarkBlue = path.resolve(
+    ROOT_PATH,
+    'dist/map-server/tiles_dark_blue'
+  );
 
   console.log('====================================');
   console.log('下载浅色背景地图...');
@@ -69,6 +74,15 @@ export async function quickStart(p1: Latlgt, p2: Latlgt, zoomLevel?: number) {
     savePath: pathDark,
     theme: 'dark',
     checkMode: true,
+  });
+
+  console.log('====================================');
+  console.log('生成深蓝色背景地图...');
+  await transToDarkBlueTiles({
+    fromDir: pathDark,
+    toDir: pathDarkBlue,
+    useCache: true,
+    clearDistBeforeStart: true, // 自动清空目标目录
   });
 
   console.log('====================================');

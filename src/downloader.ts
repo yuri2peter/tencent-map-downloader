@@ -190,16 +190,17 @@ function tryDownloadImage({
       resolve(true);
       return;
     }
-    let cacheFilePath = '';
+    const theme = styleid === '1' ? 'light' : 'dark';
+
+    // 计算缓存文件路径
+    const cacheFilePath = getFilePath(
+      z,
+      x,
+      y,
+      path.resolve(ROOT_PATH, `cache/${theme}`)
+    );
+
     if (useCache) {
-      // 获取缓存文件路径
-      const theme = styleid === '1' ? 'light' : 'dark';
-      cacheFilePath = getFilePath(
-        z,
-        x,
-        y,
-        path.resolve(ROOT_PATH, `cache/${theme}`)
-      );
       // 如果缓存已存在
       if (fs.pathExistsSync(cacheFilePath)) {
         fs.ensureFileSync(filePath);
@@ -209,7 +210,7 @@ function tryDownloadImage({
       }
     }
 
-    // 如果文件不存在
+    // 如果缓存未命中
     fs.ensureFileSync(filePath);
     const fileStream = fs.createWriteStream(filePath);
     let success = true;

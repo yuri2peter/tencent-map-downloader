@@ -66,7 +66,7 @@
     const mapRight = new mapboxgl.Map({
       ...getMapProps(),
       container: 'right-map',
-      style: getStyle('dark'),
+      style: getStyle('dark_blue'),
     });
     mapLeft.on('mousemove', () => {
       isMouseInLeft = true;
