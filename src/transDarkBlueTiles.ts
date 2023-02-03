@@ -67,6 +67,7 @@ export async function transToDarkBlueTiles({
       ].join(' | ')
     );
   }
+  logUpdate.clear();
 }
 
 async function transDarkBlueTile(pathFrom: string, pathTo: string) {
@@ -83,17 +84,17 @@ async function transDarkBlueTile(pathFrom: string, pathTo: string) {
       const blue1 = this.bitmap.data[idx + 2];
 
       // 目标色
-      const red2 = 8;
-      const green2 = 36;
-      const blue2 = 62;
+      const red2 = 8 - 39;
+      const green2 = 36 - 45;
+      const blue2 = 62 - 57;
 
       // 融合比例
-      const weight = 0.3;
+      // const weight = 0.45;
 
       // 修改像素
-      this.bitmap.data[idx + 0] = pixelColorMix(red1, red2, weight);
-      this.bitmap.data[idx + 1] = pixelColorMix(green1, green2, weight);
-      this.bitmap.data[idx + 2] = pixelColorMix(blue1, blue2, weight);
+      this.bitmap.data[idx + 0] = pixelColorFix(red1 + red2);
+      this.bitmap.data[idx + 1] = pixelColorFix(green1 + green2);
+      this.bitmap.data[idx + 2] = pixelColorFix(blue1 + blue2);
 
       // rgba values run from 0 - 255
       // e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
@@ -105,6 +106,14 @@ async function transDarkBlueTile(pathFrom: string, pathTo: string) {
 // 融合颜色
 function pixelColorMix(a: number, b: number, w: number) {
   return a * (1 - w) + b * w;
+}
+
+// 颜色值限制到0~255
+function pixelColorFix(color: number) {
+  const c = Math.floor(color);
+  if (c > 255) return 255;
+  if (c < 0) return 0;
+  return c;
 }
 
 // 遍历文件夹
@@ -126,7 +135,7 @@ async function deepDirScan(
       // 递归
       await deepDirScan(dir, _results, path.join(_relativePath, file));
     } else {
-      // 回调
+      // 记录文件
       _results.push({
         absolutePath: path.join(dir, _relativePath, file),
         relativePath: path.join(_relativePath, file),
