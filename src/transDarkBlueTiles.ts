@@ -84,9 +84,9 @@ async function transDarkBlueTile(pathFrom: string, pathTo: string) {
       const blue1 = this.bitmap.data[idx + 2];
 
       // 目标色
-      const red2 = 8 - 39;
-      const green2 = 36 - 45;
-      const blue2 = 62 - 57;
+      const red2 = 11 - 39;
+      const green2 = 54 - 45;
+      const blue2 = 97 - 57;
 
       // 融合比例
       // const weight = 0.45;
