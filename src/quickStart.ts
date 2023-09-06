@@ -1,3 +1,4 @@
+// 当前只下载深蓝色地图
 import path from 'path';
 import { ROOT_PATH } from '../constant';
 import { downloader } from './downloader';
@@ -37,54 +38,68 @@ export async function quickStart(p1: Latlgt, p2: Latlgt, zoomLevel?: number) {
     'dist/map-server/tiles_dark_blue'
   );
 
-  console.log('====================================');
-  console.log('下载浅色背景地图...');
+  const downloadTilesLight = async () => {
+    console.log('====================================');
+    console.log('下载浅色背景地图...');
 
-  await downloader({
-    ...commons,
-    savePath: pathLight,
-    theme: 'light',
-    clearDistBeforeStart: true, // 自动清空目标目录
-  });
+    await downloader({
+      ...commons,
+      savePath: pathLight,
+      theme: 'light',
+      clearDistBeforeStart: true, // 自动清空目标目录
+    });
+  };
 
-  console.log('====================================');
-  console.log('下载深色背景地图...');
+  const downloadTilesDark = async () => {
+    console.log('====================================');
+    console.log('下载深色背景地图...');
 
-  await downloader({
-    ...commons,
-    savePath: pathDark,
-    theme: 'dark',
-    clearDistBeforeStart: true, // 自动清空目标目录
-  });
+    await downloader({
+      ...commons,
+      savePath: pathDark,
+      theme: 'dark',
+      clearDistBeforeStart: true, // 自动清空目标目录
+    });
+  };
 
-  // 再次下载，检查漏网之鱼，但是如果本次再下载失败则会被忽略
-  console.log('====================================');
-  console.log('检查浅色背景地图...');
-  await downloader({
-    ...commons,
-    savePath: pathLight,
-    theme: 'light',
-    checkMode: true,
-  });
+  const checkTilesLight = async () => {
+    console.log('====================================');
+    console.log('检查浅色背景地图...');
+    await downloader({
+      ...commons,
+      savePath: pathLight,
+      theme: 'light',
+      checkMode: true,
+    });
+  };
 
-  console.log('====================================');
-  console.log('检查深色背景地图...');
-  await downloader({
-    ...commons,
-    savePath: pathDark,
-    theme: 'dark',
-    checkMode: true,
-  });
+  const checkTilesDark = async () => {
+    console.log('====================================');
+    console.log('检查深色背景地图...');
+    await downloader({
+      ...commons,
+      savePath: pathDark,
+      theme: 'dark',
+      checkMode: true,
+    });
+  };
 
-  console.log('====================================');
-  console.log('生成深蓝色背景地图...');
-  await transToDarkBlueTiles({
-    fromDir: pathDark,
-    toDir: pathDarkBlue,
-    useCache: true,
-    clearDistBeforeStart: true, // 自动清空目标目录
-  });
+  const genTilesDarkBlue = async () => {
+    console.log('====================================');
+    console.log('生成深蓝色背景地图...');
+    await transToDarkBlueTiles({
+      fromDir: pathDark,
+      toDir: pathDarkBlue,
+      useCache: true,
+      clearDistBeforeStart: true, // 自动清空目标目录
+    });
+  };
 
+  // await downloadTilesLight();
+  // await checkTilesLight();
+  await downloadTilesDark();
+  await checkTilesDark();
+  await genTilesDarkBlue();
   console.log('====================================');
   console.log('全部任务已完成, 请检查dist目录.');
 }
