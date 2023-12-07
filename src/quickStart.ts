@@ -109,5 +109,5 @@ export async function quickStart(p1: Latlgt, p2: Latlgt, zoomLevel?: number) {
   await checkTilesDark();
   await genTilesDarkBlue();
   console.log('====================================');
-  console.log('全部任务已完成, 请检查dist目录.');
+  console.log('全部任务已完成, 请检查 output 目录.');
 }

@@ -11,7 +11,7 @@ async function main() {
       type: 'input',
       name: 'p1',
       message:
-        '欢迎使用《腾讯地图瓦片下载工具》\n\n您可以使用该网站获得坐标点 https://lbs.qq.com/getPoint/\n\n坐标点格式（注意是英文逗号）形如：32.227054,117.257865\n\n请输入第一个坐标点（左上角）：',
+        '欢迎使用《腾讯地图瓦片下载工具》      ----Yuri2\n\n访问该网站拾取目标区域的坐标点 https://lbs.qq.com/getPoint/\n\n坐标点形如（注意是英文逗号）：32.227054,117.257865\n\n请输入第一个坐标点（左上角）：',
     },
     {
       type: 'input',
@@ -47,6 +47,9 @@ async function main() {
     console.log('【终止】已终止操作，请重新运行。');
     return;
   }
+  console.log(
+    '【开始】下载任务已开始，请耐心等待。如果下载的地图不是最新，请尝试删除cache目录后重新开始任务。'
+  );
   const {
     data: { p1, p2 },
   } = parseResults;
