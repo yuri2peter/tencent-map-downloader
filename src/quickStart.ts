@@ -1,5 +1,5 @@
-// 当前只下载深蓝色地图
 import path from 'path';
+// import fs from 'fs-extra';
 import { ROOT_PATH } from '../constant';
 import { downloader } from './downloader';
 import { transToDarkBlueTiles } from './transDarkBlueTiles';
@@ -95,11 +95,13 @@ export async function quickStart(p1: Latlgt, p2: Latlgt, zoomLevel?: number) {
     });
   };
 
-  // await downloadTilesLight();
-  // await checkTilesLight();
+  await downloadTilesLight();
+  await checkTilesLight();
   await downloadTilesDark();
   await checkTilesDark();
   await genTilesDarkBlue();
+  // await fs.emptyDir(pathLight); // 删除亮色地图目录
+  // await fs.emptyDir(pathDark); // 删除深色地图目录
   console.log('====================================');
   console.log('全部任务已完成, 请检查dist目录.');
 }
