@@ -4,6 +4,9 @@
 .env
 /*-win32-x64
 /dist
+/output
+/cache
+/archive
 docker/docker-compose.yml
 docker/build.sh
 docker/volumes
