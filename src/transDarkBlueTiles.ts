@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs-extra';
 import logUpdate from 'log-update';
 import Jimp from 'jimp';
-import { ROOT_PATH } from '../constant';
-import { getETA } from './utils';
+import { getETA } from './utils/miscs';
+import { ROOT_PATH } from './configs';
 
 export async function transToDarkBlueTiles({
   fromDir,
@@ -16,13 +16,14 @@ export async function transToDarkBlueTiles({
   useCache?: boolean;
   clearDistBeforeStart?: boolean;
 }) {
-  // TODO 遍历文件夹，然后转换像素
+  // 遍历文件夹，然后转换像素
   console.log('目标目录：' + toDir);
   // 清空目标目录
   if (clearDistBeforeStart) {
     console.log('已清空目录');
     await fs.emptyDir(toDir);
   }
+  console.log('\n');
   const scanResults = await deepDirScan(fromDir);
   const sum = scanResults.length;
   let countFinished = 0;

@@ -1,6 +1,5 @@
 import path from 'path';
-// import fs from 'fs-extra';
-import { ROOT_PATH } from '../constant';
+import { ROOT_PATH } from './configs';
 import { downloader } from './downloader';
 import { transToDarkBlueTiles } from './transDarkBlueTiles';
 
@@ -30,12 +29,21 @@ export async function quickStart(p1: Latlgt, p2: Latlgt, zoomLevel?: number) {
     withWorldMap: true,
     useCache: true,
   };
-
-  const pathLight = path.resolve(ROOT_PATH, 'dist/map-server/tiles_light');
-  const pathDark = path.resolve(ROOT_PATH, 'dist/map-server/tiles_dark');
+  const outputDirName = 'output';
+  const pathLight = path.resolve(
+    ROOT_PATH,
+    outputDirName,
+    'map-server/tiles_light'
+  );
+  const pathDark = path.resolve(
+    ROOT_PATH,
+    outputDirName,
+    'map-server/tiles_dark'
+  );
   const pathDarkBlue = path.resolve(
     ROOT_PATH,
-    'dist/map-server/tiles_dark_blue'
+    outputDirName,
+    'map-server/tiles_dark_blue'
   );
 
   const downloadTilesLight = async () => {
@@ -103,5 +111,5 @@ export async function quickStart(p1: Latlgt, p2: Latlgt, zoomLevel?: number) {
   // await fs.emptyDir(pathLight); // 删除亮色地图目录
   // await fs.emptyDir(pathDark); // 删除深色地图目录
   console.log('====================================');
-  console.log('全部任务已完成, 请检查dist目录.');
+  console.log('全部任务已完成, 请检查 output 目录.');
 }

@@ -7,9 +7,9 @@ import {
   minxtotile,
   maxytotile,
   minytotile,
-} from './latLngToTileUtil';
-import { getETA, waitUntil } from './utils';
-import { ROOT_PATH } from '../constant';
+} from './utils/latLngToTileUtil';
+import { getETA, waitUntil } from './utils/miscs';
+import { ROOT_PATH } from './configs';
 
 const defaultConcurrency = 12;
 
